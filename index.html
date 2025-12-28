@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Who’s Real?</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #1b1f3b, #0a0c1a);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 24px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+
+    input {
+      background: #1f244a;
+      color: white;
+      text-align: center;
+      letter-spacing: 3px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #6b7cff, #8f9bff);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .room-code {
+      font-size: 30px;
+      letter-spacing: 6px;
+      margin: 16px 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HOME / LOBBY -->
+  <div class="card" id="home">
+    <h1>Who’s Real?</h1>
+    <p>Find the AI before it finds you.</p>
+
+    <button onclick="createRoom()">Create Room</button>
+
+    <input
+      id="roomInput"
+      placeholder="ENTER ROOM CODE"
+      maxlength="4"
+    />
+
+    <button onclick="joinRoom()">Join Room</button>
+  </div>
+
+  <!-- ROOM SCREEN -->
+  <div class="card hidden" id="room">
+    <h2>Room Code</h2>
+    <div class="room-code" id="roomCode"></div>
+    <p>Waiting for players…</p>
+  </div>
+
+  <script>
+    function generateRoomCode() {
+      return Math.random().toString(36).substring(2, 6).toUpperCase();
+    }
+
+    function createRoom() {
+      const code = generateRoomCode();
+      enterRoom(code);
+    }
+
+    function joinRoom() {
+      const input = document.getElementById("roomInput");
+      const code = input.value.trim().toUpperCase();
+
+      if (code.length !== 4) {
+        alert("Enter a 4-letter room code");
+        return;
+      }
+
+      enterRoom(code);
+    }
+
+    function enterRoom(code) {
+      document.getElementById("home").classList.add("hidden");
+      document.getElementById("room").classList.remove("hidden");
+      document.getElementById("roomCode").innerText = code;
+
+      // FUTURE HOOKS:
+      // connectToFirebaseRoom(code)
+      // addPlayerToRoom(code)
+      // injectAIBots(code)
+    }
+  </script>
+
+</body>
+</html>
